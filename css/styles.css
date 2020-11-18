@@ -33,7 +33,9 @@ body {
 .navbar-dark {
   background-color: #512da8;
 }
-.theader-bg {
-  background-color: rgba(238, 174, 14, 0.979);
-  color: white;
+.tab-content {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
 }
