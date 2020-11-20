@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="node_modules/font-awesome/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="node_modules/bootstrap-social/bootstrap-social.css"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>Ristorante Con Fusion</title>
+  </head>
+  <body>
+    <div id="reserve-table" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg" role="content">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Reserve Table</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group form-row">
+                <div class="col-12 col-md-3 form-check">
+                  <label for="guests" class="form-check-label"
+                  >Number of Guests</label>
+                </div>
+                <div class="form-check-inline">
+                  <input class="form-check-input" type="radio" name="guests" id="guests1" value="1">
+                  <label class="form-check-label" for="guests1">1</label>
+                </div>
+                <div class="form-check-inline">
+                  <input class="form-check-input" type="radio" name="guests" id="guests2" value="2">
+                  <label class="form-check-label" for="guests2">2</label>
+                </div>
+                <div class="form-check-inline">
+                  <input class="form-check-input" type="radio" name="guests" id="guests3" value="3">
+                  <label class="form-check-label" for="guests3">3</label>
+                </div>
+                <div class="form-check-inline">
+                  <input class="form-check-input" type="radio" name="guests" id="guests4" value="4">
+                  <label class="form-check-label" for="guests4">4</label>
+                </div>
+                <div class="form-check-inline">
+                  <input class="form-check-input" type="radio" name="guests" id="guests5" value="5">
+                  <label class="form-check-label" for="guests5">5</label>
+                </div>
+                <div class="form-check-inline">
+                  <input class="form-check-input" type="radio" name="guests" id="guests6" value="6">
+                  <label class="form-check-label" for="guests6">6</label>
+                </div>
+              </div>
+              <div class="form-group form-row">
+                <div class="col-12 col-md-3">
+                  <label for="date-time" class="col-form-label">Date and Time</label>
+                </div>
+                <div class="col-12 col-md-4">
+                  <input
+                  type="text"
+                  class="form-control"
+                  id="date"
+                  name="date"
+                  placeholder="Date"
+                />
+                </div>
+                  <div class="col-12 col-md-4">
+                  <input
+                  type="text"
+                  class="form-control"
+                  id="time"
+                  name="time"
+                  placeholder="Time"
+                />
+                </div>
+              </div>
+              <div class="form-group form-row">
+                  <div class="col-12 col-md-9 offset-md-3">
+                  <button class="btn btn-primary">Reserve
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a
+        role="button"
+        class="btn btn-block btn-sm btn-warning"
+        href="#reserve-table"
+        data-toggle="modal"
+        data-target="#reserve-table"
+        >Reserve Table
+      </a>
+    </div>
+  </body>
+</html>
