@@ -2,6 +2,7 @@ $lt-gray: #ddd;
 $background-dark: #512da8;
 $background-light: #9575cd;
 $background-pale: #d1c4e9;
+$text-color-light: floralwhite;
 
 // Height variables
 $carousel-item-height: 300px;
@@ -75,6 +76,16 @@ body {
   position: absolute;
   bottom: 0px;
   z-index: 1;
+}
+.modal-header {
+  background-color: $background-dark;
+  color: $text-color-light;
+  .close {
+    color: $text-color-light;
+  }
+}
+.modal-body {
+  background-color: $background-pale;
 }
 
 // Installing and using the node-sass module

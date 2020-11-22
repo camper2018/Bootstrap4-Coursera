@@ -62,10 +62,8 @@
               >
             </li>
           </ul>
-          <span class="navbar-text">
-            <a data-toggle="modal" data-target="#loginModal">
-              <span class="fa fa-sign-in"></span>Login
-            </a>
+          <span class="navbar-text" id="login-btn">
+            <a> <span class="fa fa-sign-in"></span>Login </a>
           </span>
         </div>
       </div>
@@ -75,7 +73,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">Login</h4>
-            <button type="button" class="close" data-dismiss="modal">
+            <button type="button" class="close login-modal-close">
               &times;
             </button>
           </div>
@@ -114,8 +112,7 @@
               <div class="form-row">
                 <button
                   type="button"
-                  class="btn btn-secondary btn-sm ml-auto"
-                  data-dismiss="modal"
+                  class="btn btn-secondary btn-sm ml-auto login-modal-close"
                 >
                   Cancel
                 </button>
@@ -147,8 +144,8 @@
             <a
               role="button"
               class="btn btn-block btn-sm btn-warning"
-              data-toggle="modal"
               href="#reserve-table"
+              id="reserve-btn"
               >Reserve Table
             </a>
           </div>
@@ -164,7 +161,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Reserve a Table</h4>
-              <button type="button" class="close" data-dismiss="modal">
+              <button type="button" class="close reverve-modal-close">
                 &times;
               </button>
             </div>
@@ -292,8 +289,7 @@
                   <div class="col offset-md-3">
                     <button
                       type="button"
-                      class="btn btn-secondary"
-                      data-dismiss="modal"
+                      class="btn btn-secondary reverve-modal-close"
                     >
                       Cancel
                     </button>
@@ -549,19 +545,17 @@
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script>
       $(document).ready(function () {
-        $("#mycarousel").carousel({ interval: 2000 });
-        $("#carouselButton").click(function () {
-          if ($("#carouselButton").children("span").hasClass("fa-pause")) {
-            $("#mycarousel").carousel("pause");
-            $("#carouselButton").children("span").removeClass("fa-pause");
-            $("#carouselButton").children("span").addClass("fa-play");
-          } else if (
-            $("#carouselButton").children("span").hasClass("fa-play")
-          ) {
-            $("#mycarousel").carousel("cycle");
-            $("#carouselButton").children("span").removeClass("fa-play");
-            $("#carouselButton").children("span").addClass("fa-pause");
-          }
+        $("#login-btn").click(function () {
+          $("#loginModal").modal("toggle");
+        });
+        $(".login-modal-close").click(function () {
+          $("#loginModal").modal("toggle");
+        });
+        $("#reserve-btn").click(function () {
+          $("#reserve-table").modal("toggle");
+        });
+        $(".reverve-modal-close").click(function () {
+          $("#reserve-table").modal("toggle");
         });
       });
     </script>
