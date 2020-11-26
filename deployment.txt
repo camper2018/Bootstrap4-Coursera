@@ -1,7 +1,7 @@
 1. Keep all css and javascript code separate from html file in separate files.
-To watch for changes to the styles.scss file and automatically compile it to the css file, and
-run multiple NPM scripts in parallel using parallelshell NPM module,
-We will install couple of npm packages as below:
+2. To watch for changes to the styles.scss file and automatically compile it to the css file, and
+   run multiple NPM scripts in parallel using parallelshell NPM module,
+   we will install couple of npm packages as below:
 * npm watch module called "Onchange" that watches for any changes in the file/code.We can also use --watch module.
 * npm parallelshel module: Allows us to execute multiple npm scripts in parallel shells and keep watch on various files simultaneously while carrying out other tasks.
 npm install --save-dev onchange@3.3.0 parallelshell@3.0.2
@@ -12,3 +12,72 @@ Now within your npm scripts, add :
 Then change "npm run lite" in "start" script  to "npm run watch:all"
 Now with typing npm start we will be able to run lite server as well as start watch on .scss file to restart server if any change occurs in .scss or html file.
 
+3. Next we will build a distribution folder which contains all the files for our project that we can simply deploy to a web server that hosts our website:
+That is we will be doing a CSS modification, concatenation, and JavaScript uglification, minification, and HTML minification and then generate a distribution folder with all the files. But essentially forms the set of files that can be deployed to our web server that hosts our website.
+To do so first we will combine all our scripts/ JS files into a single JavaScript file that will be delivered from our web server to a browser that is trying to view our website.
+This way, we minimize the number of downloads that the browser needs to do in order to render our website.
+Similarly, we're going to combine all the CSS code into one single CSS file, so that it can be delivered.
+So the combined CSS file will contain all the code for Bootstrap plus Bootstrap social, and also the Font Awesome and also the CSS code that we ourselves wrote.
+Similarly, there will be a single JavaScript file which will contain the jQuery tether, Bootstrap and the JavaScript code that we, ourselves wrote, all combined together in one single file.
+Deployment is done is to combine them into a single file so that one single download you get all the JavaScript code necessary for rendering your web page.
+One single download you get all the CSS code necessary for rendering your web page.
+And then, of course, the HTML file itself is going to be downloaded.
+To get these tasks to be completed, we need to use a certain set of NPM modules to accomplish this. Now, what we will end up doing is to build a folder in our projects file, and then we call that folder as dist,a distribution folder
+This folder will contain all the files that can be simply copied to the web server that hosts our website.
+Steps for project build are :
+1. Clean out a distribution folder using the clean NPM module.
+2. Copy files from one folder to another.
+3. Prepare a minified and concatenated css file from all the css files used in your project
+4. Prepare an uglified and concatenated JS file containing all the JS code used in your project.
+
+1. Cleaning up a Distribution Folder:
+  Install the rimraf npm module by typing the following at the prompt:
+  npm install --save-dev rimraf@2.6.2
+  Then, set up the following script:
+  "clean": "rimraf dist",
+
+2. Copying Fonts:
+  Your project uses font-awesome fonts.
+  These need to be copied to the distribution folder.
+  To help us do this, install the copyfiles NPM module globally as follows:
+  sudo npm -g install copyfiles@2.0.0
+  Then set up the following script:
+  "copyfonts": "copyfiles -f node_modules/font-awesome/fonts/* dist/fonts"
+
+3. Compressing and Minifying Images:
+   We use the imagemin-cli NPM module to help us to compress our images to reduce the size of the images being used in our project.
+   Install the imagemin-cli module as follows:
+   sudo npm -g install imagemin-cli@3.0.0 --unsafe-perm=true --allow-root
+   Then set up the following script:
+   "imagemin": "imagemin img/* --out-dir='dist/img'"
+
+4. Preparing the Distribution Folder:
+   Open .gitignore and update it as follows. We do not want the dist folder to be checked into the git repository.
+   node_modules
+   dist
+   Then, install the usemin-cli, cssmin, uglifyjs and htmlmin NPM packages as follows:
+   npm install --save-dev usemin-cli@0.5.1 cssmin@0.4.3 uglifyjs@2.4.11 htmlmin@0.0.7
+   Add the following two scripts to the package.json file:
+    "usemin": "usemin contactus.html -d dist --htmlmin -o dist/contactus.html && usemin aboutus.html -d dist --htmlmin -o dist/aboutus.html && usemin index.html -d dist --htmlmin -o dist/index.html",
+    "build": "npm run clean && npm run imagemin && npm run copyfonts && npm run usemin"
+   Open index.html and surround the css links inclusion code as follows:
+    <!-- build:css css/main.css -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <!-- endbuild -->
+    Do the same change in aboutus.html and contactus.html
+    Similarly, open index.html and surround the js script inclusion code as follows:
+     <!-- build:js js/main.js -->
+    <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <!-- endbuild -->
+    Do the same change in aboutus.html and contactus.html
+
+    To build the distribution folder, you can type the following at the prompt:
+    npm run build
+    This will build the dist folder containing the files that are a self-contained version of your project. You can now copy the contents of this folder to a web server that hosts your website.
+    You can now check your dist build folder by typing in the browser url as localhost:3000/dist/index.html
