@@ -1,0 +1,14 @@
+1. Keep all css and javascript code separate from html file in separate files.
+To watch for changes to the styles.scss file and automatically compile it to the css file, and
+run multiple NPM scripts in parallel using parallelshell NPM module,
+We will install couple of npm packages as below:
+* npm watch module called "Onchange" that watches for any changes in the file/code.We can also use --watch module.
+* npm parallelshel module: Allows us to execute multiple npm scripts in parallel shells and keep watch on various files simultaneously while carrying out other tasks.
+npm install --save-dev onchange@3.3.0 parallelshell@3.0.2
+Now within your npm scripts, add :
+"watch:scss": "onchange 'css/*.scss' -- npm run scss"
+"watch:all" : "parallelshel 'npm run watch:scss' 'npm run lite'"
+
+Then change "npm run lite" in "start" script  to "npm run watch:all"
+Now with typing npm start we will be able to run lite server as well as start watch on .scss file to restart server if any change occurs in .scss or html file.
+
