@@ -204,3 +204,198 @@ Build & Deploy Using Grunt:
     It will also keep a watch on the files in the css folder,
     and if you update any of them, it will compile the scss file into css file and load the updated page into the browser (livereload).
 
+5.  Copying the Files and Fonts and Cleaning Up the Dist Folder:
+    We will install the Grunt modules to copy over files to a distribution folder named dist,
+    and clean up the dist folder when needed.
+    To do this, install the following Grunt modules:
+
+    npm install grunt-contrib-copy@1.0.0 --save-dev
+    npm install grunt-contrib-clean@1.1.0 --save-dev
+
+    Now add the code to perform the copying of files to the dist folder,
+    and cleaning up the dist folder.
+    To do this, add the following code to Gruntfile.js.
+    This should be added right after the configuration of the SASS task.:
+
+    ,
+
+        copy: {
+            html: {
+                files: [
+                {
+                    //for html
+                    expand: true,
+                    dot: true,
+                    cwd: './',
+                    src: ['*.html'],
+                    dest: 'dist'
+                }]
+            },
+            fonts: {
+                files: [
+                {
+                    //for font-awesome
+                    expand: true,
+                    dot: true,
+                    cwd: 'node_modules/font-awesome',
+                    src: ['fonts/*.*'],
+                    dest: 'dist'
+                }]
+            }
+        },
+
+        clean: {
+            build: {
+                src: [ 'dist/']
+            }
+        }
+        Remember to add the comma after the end of the SASS task.
+
+6.  Compressing and Minifying Images:
+    Next we install the grunt-contrib-imagemin module and use it to process the images.
+    To install this module type at the prompt:
+
+    npm install grunt-contrib-imagemin@2.0.1 --save-dev
+
+    Then, configure the imagemin task as shown below in the Gruntfile:
+
+    ,
+        imagemin: {
+            dynamic: {
+                files: [{
+                    expand: true,                  // Enable dynamic expansion
+                    cwd: './',                   // Src matches are relative to this path
+                    src: ['img/*.{png,jpg,gif}'],   // Actual patterns to match
+                    dest: 'dist/'                  // Destination path prefix
+                }]
+            }
+        }
+
+7. Preparing the Distribution Folder and Files:
+   We are now going to use the Grunt usemin module together with concat, cssmin, uglify and filerev to prepare the distribution folder. To do this, install the following Grunt modules:
+
+    npm install grunt-contrib-concat@1.0.1 --save-dev
+    npm install grunt-contrib-cssmin@2.2.1 --save-dev
+    npm install grunt-contrib-htmlmin@2.4.0 --save-dev
+    npm install grunt-contrib-uglify@3.3.0 --save-dev
+    npm install grunt-filerev@2.3.1 --save-dev
+    npm install grunt-usemin@3.1.1 --save-dev
+
+    Next, update the task configuration within the Gruntfile.js with the following additional code to introduce the new tasks:
+
+    ,
+
+        useminPrepare: {
+            foo: {
+                dest: 'dist',
+                src: ['contactus.html','aboutus.html','index.html']
+            },
+            options: {
+                flow: {
+                    steps: {
+                        css: ['cssmin'],
+                        js:['uglify']
+                    },
+                    post: {
+                        css: [{
+                            name: 'cssmin',
+                            createConfig: function (context, block) {
+                            var generated = context.options.generated;
+                                generated.options = {
+                                    keepSpecialComments: 0, rebase: false
+                                };
+                            }
+                        }]
+                    }
+                }
+            }
+        },
+
+        // Concat
+        concat: {
+            options: {
+                separator: ';'
+            },
+
+            // dist configuration is provided by useminPrepare
+            dist: {}
+        },
+
+        // Uglify
+        uglify: {
+            // dist configuration is provided by useminPrepare
+            dist: {}
+        },
+
+        cssmin: {
+            dist: {}
+        },
+
+        // Filerev
+        filerev: {
+            options: {
+                encoding: 'utf8',
+                algorithm: 'md5',
+                length: 20
+            },
+
+            release: {
+            // filerev:release hashes(md5) all assets (images, js and css )
+            // in dist directory
+                files: [{
+                    src: [
+                        'dist/js/*.js',
+                        'dist/css/*.css',
+                    ]
+                }]
+            }
+        },
+
+        // Usemin
+        // Replaces all assets with their revved version in html and css files.
+        // options.assetDirs contains the directories for finding the assets
+        // according to their relative paths
+        usemin: {
+            html: ['dist/contactus.html','dist/aboutus.html','dist/index.html'],
+            options: {
+                assetsDirs: ['dist', 'dist/css','dist/js']
+            }
+        },
+
+        htmlmin: {                                         // Task
+            dist: {                                        // Target
+                options: {                                 // Target options
+                    collapseWhitespace: true
+                },
+                files: {                                   // Dictionary of files
+                    'dist/index.html': 'dist/index.html',  // 'destination': 'source'
+                    'dist/contactus.html': 'dist/contactus.html',
+                    'dist/aboutus.html': 'dist/aboutus.html',
+                }
+            }
+        }
+
+    Next, update the jit-grunt configuration as follows, to inform it that useminPrepare task depends on the usemin package:
+
+    require('jit-grunt')(grunt, {
+    useminPrepare: 'grunt-usemin'
+   });
+
+   Next, update the Grunt build task as follows:
+
+    grunt.registerTask('build', [
+        'clean',
+        'copy',
+        'imagemin',
+        'useminPrepare',
+        'concat',
+        'cssmin',
+        'uglify',
+        'filerev',
+        'usemin',
+        'htmlmin'
+   ]);
+
+   Now if you run Grunt, it will create a dist folder with the files structured correctly to be distributed to a server to host your website. To do this, type the following at the prompt:
+
+   grunt build
