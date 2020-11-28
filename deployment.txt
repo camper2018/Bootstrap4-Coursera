@@ -481,9 +481,9 @@ Deployment Using GULP Task Runner:
 
     npm install del@3.0.0 --save-dev
 
-    var ...
-    del = require('del'),
-    ...
+    within var gulp = require('gulp'), add this line of code at the bottom:
+    del = require('del')
+
 
     Next, we will add the code for the Clean task and the copyfonts task as follows:
 
@@ -503,9 +503,9 @@ Deployment Using GULP Task Runner:
 
     npm install gulp-imagemin@4.1.0 --save-dev
 
-    var ...
+    within var gulp = require('gulp'), add this line of code at the bottom:
     imagemin = require('gulp-imagemin'),
-    ...
+
 
     Next, we create the imagemin task as follows:
 
@@ -521,7 +521,8 @@ Deployment Using GULP Task Runner:
 
     npm install gulp-uglify@3.0.0 gulp-usemin@0.3.29 gulp-rev@8.1.1 gulp-clean-css@3.9.3 gulp-flatmap@1.0.2 gulp-htmlmin@4.0.0 --save-dev
 
-    var ...
+    within var gulp = require('gulp'), add this line of code at the bottom:
+
     uglify = require('gulp-uglify'),
     usemin = require('gulp-usemin'),
     rev = require('gulp-rev'),
